@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Welcome and Choose a Course</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Courses List</h1>
+</header>
+<main>
+    <h2>Teachers</h2>
+    </br>
+    </br>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="teacher : ${listTeachers}">
+                <td>
+                    <th:block th:text="${teacher.getName()}"></th:block>
+                </td>
+                <td>
+                    <th:block th:text="${teacher.getSurname()}"></th:block>
+                </td>
+                <td>
+                    <a th:href="@{'/teachers/edit-form/{id}' (id=${teacher.getId()})}">Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{'/teachers/delete/{id}' (id=${teacher.getId()})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <input type="submit" value="Submit">
+
+    </br>
+    <button onclick="location.href='/teachers/add-form'">Add Teacher</button>
+    </br>
+    </br>
+
+    <div th:if="${hasError}">
+        <div th:text="${errormessage}"></div>
+</main>
+</body>
+</html>
