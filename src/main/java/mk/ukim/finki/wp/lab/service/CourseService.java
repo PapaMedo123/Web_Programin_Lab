@@ -10,4 +10,6 @@ public interface CourseService {
     Course addStudentInCourse(String username, Long courseId);
     List<Course> listAll();
     Course courseById(Long courseId);
+    void delete(Long Id);
+    public Course save(Long Id, String name, String description, List<Student> students, Long teacher);
 }

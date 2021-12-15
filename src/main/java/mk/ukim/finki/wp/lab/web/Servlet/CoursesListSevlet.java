@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.web;
+package mk.ukim.finki.wp.lab.web.Servlet;
 
 
 import mk.ukim.finki.wp.lab.model.Course;

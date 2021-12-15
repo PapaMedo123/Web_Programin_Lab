@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter
+//@WebFilter
 public class StudentFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -19,7 +19,8 @@ public class StudentFilter implements Filter {
         String path = request.getServletPath();
 
         String student = (String) request.getSession().getAttribute("chosenStudent");
-        if(!"/createStudent".equals(path) && !"/addStudent".equals(path) && !"/listCourses".equals(path) && (student == null || student.isEmpty())){
+        if(!"/courses".regionMatches(0,path,0,8) && !"/createStudent".equals(path) && !"/addStudent".equals(path)
+                && !"/listCourses".equals(path) && (student == null || student.isEmpty())){
             response.sendRedirect("/addStudent");
         }else {
             filterChain.doFilter(servletRequest,servletResponse);

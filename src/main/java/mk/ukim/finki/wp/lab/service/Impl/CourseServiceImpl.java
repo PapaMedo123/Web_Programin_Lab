@@ -2,7 +2,11 @@ package mk.ukim.finki.wp.lab.service.Impl;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.Teacher;
+import mk.ukim.finki.wp.lab.model.exeption.CourseNameIdentedy;
+import mk.ukim.finki.wp.lab.model.exeption.TeacherNotFoundExeption;
 import mk.ukim.finki.wp.lab.repository.CourseRepository;
+import mk.ukim.finki.wp.lab.repository.TeacherRepository;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.StudentService;
 import org.springframework.stereotype.Service;
@@ -15,12 +19,13 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository repository;
     private final StudentService studentService;
+    private final TeacherRepository teacherRepository;
 
-    public CourseServiceImpl(CourseRepository repository, StudentService studentService) {
+    public CourseServiceImpl(CourseRepository repository, StudentService studentService, TeacherRepository teacherRepository) {
         this.repository = repository;
         this.studentService = studentService;
+        this.teacherRepository = teacherRepository;
     }
-
 
     @Override
     public List<Student> listStudentsByCourse(Long courseId) {
@@ -65,5 +70,19 @@ public class CourseServiceImpl implements CourseService {
             course = repository.findById(courseId).get();
         }
         return course;
+    }
+
+    @Override
+    public void delete(Long Id) {
+        repository.deleteCourse(Id);
+    }
+
+    @Override
+    public Course save(Long Id, String name, String description, List<Student> students, Long teacher){
+        Teacher add_teacher = teacherRepository.findById(teacher).orElseThrow(() -> new TeacherNotFoundExeption(teacher));
+        if(repository.findAllCourses().stream().anyMatch(s -> s.getName().equals(name) && !s.getCourseId().equals(Id))){
+            throw new CourseNameIdentedy();
+        }
+        return repository.createOrUpdate(Id, name, description, students, add_teacher);
     }
 }
