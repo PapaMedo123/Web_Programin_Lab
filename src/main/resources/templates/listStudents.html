@@ -39,8 +39,13 @@
             <th:block th:text="${student.getName()} +' '+ ${student.getSurname()}"></th:block><br/>
         </div>
         <br/>
+        <br/>
         <input type="submit" value="Submit">
     </form>
+    <br/>
+    <br/>
+    <br/>
+    <a th:href="@{'/grades/{id}' (id=${courseId})}">Grade students in this course</a>
 </section>
 <aside>
     <table>

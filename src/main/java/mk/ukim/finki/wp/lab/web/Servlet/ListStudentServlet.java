@@ -1,7 +1,6 @@
 package mk.ukim.finki.wp.lab.web.Servlet;
 
 
-import mk.ukim.finki.wp.lab.service.Impl.CourseServiceImpl;
 import mk.ukim.finki.wp.lab.service.Impl.StudentServiceImpl;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;

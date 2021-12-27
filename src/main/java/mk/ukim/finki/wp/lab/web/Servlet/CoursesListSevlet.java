@@ -1,8 +1,6 @@
 package mk.ukim.finki.wp.lab.web.Servlet;
 
 
-import mk.ukim.finki.wp.lab.model.Course;
-import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.Impl.CourseServiceImpl;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "CoursesListSevlet",urlPatterns = "/listCourses")
 public class CoursesListSevlet extends HttpServlet {

@@ -9,10 +9,30 @@
     <h1>Students in Course </h1>
 </header>
 <section>
-    <div><th:block th:text="${courseName}"></th:block></div>
-    <ul th:each="student : ${studentsInCourse}">
-        <li><th:block th:text="${student.getName()} + ' ' + ${student.getSurname()}"></th:block></li>
-    </ul>
+    <div><h1><th:block th:text="${courseName}"></th:block></h1></div>
+    <table>
+        <tbody>
+        <tr th:each="grade : ${studentsWithGradeInCourse}">
+            <td>
+                <th:block th:text="${grade.getStudent().getName()}"></th:block>
+            </td>
+            <td>
+                <th:block th:text="${grade.getStudent().getSurname()}"></th:block>
+            </td>
+            <td>
+                <th:block th:text="${grade.getGrade()}"></th:block>
+            </td>
+        </tr>
+        <tr th:each="student : ${studentsWithoutGradeInCourse}">
+            <td>
+                <th:block th:text="${student.getName()}"></th:block>
+            </td>
+            <td>
+                <th:block th:text="${student.getSurname()}"></th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
     <a href="/listCourses">Back</a>
 </section>
 

@@ -29,10 +29,10 @@
             <tbody>
             <tr th:each="teacher : ${listTeachers}">
                 <td>
-                    <th:block th:text="${teacher.getName()}"></th:block>
+                    <th:block th:text="${teacher.getPersonName().getName()}"></th:block>
                 </td>
                 <td>
-                    <th:block th:text="${teacher.getSurname()}"></th:block>
+                    <th:block th:text="${teacher.getPersonName().getSurname()}"></th:block>
                 </td>
                 <td>
                     <a th:href="@{'/teachers/edit-form/{id}' (id=${teacher.getId()})}">Edit</a>
@@ -53,6 +53,7 @@
 
     <div th:if="${hasError}">
         <div th:text="${errormessage}"></div>
+    </div>
 </main>
 </body>
 </html>

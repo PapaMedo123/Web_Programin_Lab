@@ -1,27 +1,25 @@
-package mk.ukim.finki.wp.lab.service.Impl;
+package mk.ukim.finki.wp.lab.service.InMemoryImpl;
 
 import mk.ukim.finki.wp.lab.model.Student;
-import mk.ukim.finki.wp.lab.model.exeption.StudentNotFound;
-import mk.ukim.finki.wp.lab.model.exeption.StudentsByNameOrSurnameNotFound;
-import mk.ukim.finki.wp.lab.repository.StudentRepository;
+//import mk.ukim.finki.wp.lab.repository.Impl.StudentRepositoryImpl;
 import mk.ukim.finki.wp.lab.service.StudentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+/*
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final StudentRepository repository;
+    private final StudentRepositoryImpl repository;
 
-    public StudentServiceImpl(StudentRepository repository) {
+    public StudentServiceImpl(StudentRepositoryImpl repository) {
         this.repository = repository;
     }
 
     @Override
     public List<Student> listAll() {
-        return repository.findAll();
+        return repository.findAllStudents();
     }
 
     @Override
@@ -29,11 +27,11 @@ public class StudentServiceImpl implements StudentService {
         if(text==null || text.isEmpty()){
             throw new IllegalArgumentException("Text not valid");
         }
-
-        List<Student> students = repository.findAllByNameOrSurname(text,text);
+        List<Student> students = null;
+        students = repository.findAllByNameOrSurname(text);
 
         if(students == null || students.isEmpty()) {
-            throw new StudentsByNameOrSurnameNotFound(text);
+            throw new IllegalArgumentException("Name or Surname not found");
         }
         return students;
     }
@@ -45,6 +43,8 @@ public class StudentServiceImpl implements StudentService {
         {
             throw new IllegalArgumentException("Arguments not vaild");
         }
-        return repository.save(new Student(username, password, name, surname));
+        return repository.createOrUpdate(username, password, name, surname);
     }
 }
+
+ */

@@ -16,17 +16,27 @@
     </br>
     </br>
         <label for='description'>Descriprion:</label>
-        <input id='description' type='text' name='description' th:value="(${course} != null ? ${course.getDescription()} : '')"/>
+        <th:block>
+            <textarea id='description' name='description' th:text="(${course} != null ? ${course.getDescription()} : '')">
+            </textarea>
+        </th:block>
     </br>
     </br>
         <label for="TeacherID">Teacher ID:</label>
 
         <select id="TeacherID" name="TeacherID">
             <th:block th:each="teacher : ${teachers}">
-                <option th:selected="${course!= null && course.getTeacher() != null && teacher.getId()==course.getTeacher().getId()}" th:name="${teacher.getName()}" th:value="${teacher.getId()}">
-                    <th:block th:text="${teacher.getName()}"></th:block>
+                <option th:selected="${course!= null && course.getTeacher() != null && teacher.getId()==course.getTeacher().getId()}" th:name="${teacher.getPersonName().getName()}" th:value="${teacher.getId()}">
+                    <th:block th:text="${teacher.getPersonName().getName()}"></th:block>
                 </option>
             </th:block>
+        </select>
+
+        <select id="typeName" name="typeName">
+            <option th:selected="${course!=null && course.getType()==0}" value="WINTER">Winter</option>
+            <option th:selected="${course!=null && course.getType()==1}" value="SUMMER">Summer</option>
+            <option th:selected="${course!=null && course.getType()==2}" value="MANDATORY">Mandatory</option>
+            <option th:selected="${course!=null && course.getType()==3}" value="ELECTIVE">Elective</option>
         </select>
     </br>
     </br>

@@ -1,14 +1,14 @@
 package mk.ukim.finki.wp.lab.service.Impl;
 
-import mk.ukim.finki.wp.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Teacher;
-import mk.ukim.finki.wp.lab.model.exeption.CourseNameIdentedy;
+import mk.ukim.finki.wp.lab.model.TeacherFullname;
+import mk.ukim.finki.wp.lab.model.exeption.TeacherNotFoundExeption;
 import mk.ukim.finki.wp.lab.repository.TeacherRepository;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -26,26 +26,26 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Optional<Teacher> findById(Long Id) {
-        return repository.findById(Id);
-    }
-
-    @Override
-    public Optional<Teacher> teacherById(Long teacherId) {
-        return repository.findById(teacherId);
+    public Teacher findById(Long Id) {
+        return repository.findById(Id).orElseThrow(() -> new TeacherNotFoundExeption(Id));
     }
 
     @Override
     public void delete(Long Id) {
-        repository.deleteTeacher(Id);
+        repository.delete(this.findById(Id));
     }
 
     @Override
-    public Teacher save(Long Id, String name, String surname) {
-        Long ID = Id;
-        if(Id == null || Id == 0) {
-            ID = DataHolder.GetId();
-        }
-        return repository.createOrUpdate(ID, name, surname);
+    public Teacher save(String name, String surname, LocalDate dateOfEmployment) {
+        return repository.save(new Teacher(new TeacherFullname(name,surname), dateOfEmployment));
+    }
+
+    @Override
+    public Teacher update(Long Id, String name, String surname, LocalDate dateOfEmployment) {
+        Teacher teacher = this.findById(Id);
+        teacher.getPersonName().setName(name);
+        teacher.getPersonName().setSurname(surname);
+        teacher.setDateOfEmployment(dateOfEmployment);
+        return repository.save(teacher);
     }
 }

@@ -12,11 +12,14 @@
     </br>
     </br>
     <label for='name'>Name:</label>
-    <input id='name' type='text' name='name' th:value="(${teacher} != null ? ${teacher.getName()} : '')"/>
+    <input id='name' type='text' name='name' th:value="(${teacher} != null ? ${teacher.getPersonName().getName()} : '')"/>
     </br>
     </br>
-    <label for='surname'>Descriprion:</label>
-    <input id='surname' type='text' name='surname' th:value="(${teacher} != null ? ${teacher.getSurname()} : '')"/>
+    <label for='surname'>Surname:</label>
+    <input id='surname' type='text' name='surname' th:value="(${teacher} != null ? ${teacher.getPersonName().getSurname()} : '')"/>
+    </br>
+    </br>
+    <input id='date' type='date' name='date' th:value="(${teacher} != null ? ${teacher.getDateOfEmployment()} : '')"/>
     </br>
     </br>
     <input type='submit' value='Submit'/>

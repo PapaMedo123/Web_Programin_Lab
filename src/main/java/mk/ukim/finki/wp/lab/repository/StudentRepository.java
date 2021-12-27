@@ -1,30 +1,14 @@
 package mk.ukim.finki.wp.lab.repository;
 
-import mk.ukim.finki.wp.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
-public class StudentRepository {
+public interface StudentRepository extends JpaRepository<Student,String> {
 
-    public List<Student> findAllStudents(){
-        return DataHolder.students;
-    }
+    List<Student> findAllByNameOrSurname(String name, String surname);
 
-    public List<Student> findAllByNameOrSurname(String text){
-        return DataHolder.students.stream()
-                .filter(r -> r.getName().equals(text) || r.getSurname().equals(text))
-                .collect(Collectors.toList());
-    }
-
-    public Student createOrUpdate(String username, String password, String name, String surname){
-        Student student = new Student(username, password, name, surname);
-        DataHolder.students.removeIf(s -> s.getName().equals(student.getName()) && s.getSurname().equals(student.getSurname()));
-        DataHolder.students.add(student);
-        return student;
-    }
 }

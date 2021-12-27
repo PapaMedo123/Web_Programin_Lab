@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Create a New Student Page</title>
+</head>
+<body>
+<header>
+    <h1>Student Enrollment - Create a New Student </h1>
+</header>
+<section>
+    <form th:method="POST" th:action="@{'/grades/addGrade/{id}'(id=${courseId != null ? courseId : 0})}">
+
+        <div th:each="student : ${notGrated}">
+            <input type="radio" name="chosenStudent" th:value="${student.getUsername()}">
+            <label th:text="${student.getName()} + '    ' +
+                            ${student.getSurname()}"></label><br/>
+        </div>
+        <div th:each="student : ${grated}">
+            <input th:type="radio" name="chosenStudent" th:value="${student.getStudent().getUsername()}">
+            <label th:text="${student.getStudent().getName()} + '    ' +
+                            ${student.getStudent().getSurname()} + '    ' +
+                            ${student.getGrade()}"></label><br/>
+        </div>
+
+        <br/>
+        <br/>
+
+        <input checked="checked" type="radio" name="chosenGrade" value="A"><label>   A</label><br/>
+        <input type="radio" name="chosenGrade" value="B"><label>   B</label><br/>
+        <input type="radio" name="chosenGrade" value="C"><label>   C</label><br/>
+        <input type="radio" name="chosenGrade" value="D"><label>   D</label><br/>
+        <input type="radio" name="chosenGrade" value="E"><label>   E</label><br/>
+        <input type="radio" name="chosenGrade" value="F"><label>   F</label><br/>
+        <br/>
+        <br/>
+        <input type="datetime-local" name="dateTime"/>
+        <br/>
+        <br/>
+        <input type='submit' value='Submit'/>
+
+    </form>
+</section>
+</body>
+</html>

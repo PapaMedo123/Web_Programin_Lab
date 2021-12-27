@@ -1,18 +1,18 @@
 package mk.ukim.finki.wp.lab.web.Controller;
 
 
-import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Teacher;
-import mk.ukim.finki.wp.lab.model.exeption.CourseNameIdentedy;
 import mk.ukim.finki.wp.lab.model.exeption.TeacherNotFoundExeption;
 import mk.ukim.finki.wp.lab.service.Impl.CourseServiceImpl;
 import mk.ukim.finki.wp.lab.service.Impl.TeacherServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Controller
@@ -48,25 +48,34 @@ public class TeacherController {
     @PostMapping("/add/{id}")
     public String postSaveCourse(@RequestParam String name,
                                  @RequestParam String surname,
+                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                  @PathVariable(required = false) Long id) {
-        id = id==null?0L:id;
-        this.teacherService.save(id,name, surname);
+        try {
+            if (id == null || id == 0) {
+                this.teacherService.save(name, surname, date);
+            } else {
+                this.teacherService.update(id, name, surname, date);
+            }
+        }catch (TeacherNotFoundExeption e){
+            System.out.println(e.getMessage());
+        }
         return "redirect:/teachers";
     }
 
     @GetMapping("/edit-form/{id}")
     public String getEditTeacherPage(@PathVariable Long id, Model model,HttpSession session){
         Teacher t = null;
-        if(teacherService.teacherById(id).isPresent()){
-            t = teacherService.teacherById(id).get();
+        try {
+            t = teacherService.findById(id);
+            model.addAttribute("teachers", teacherService.findAll());
+            model.addAttribute("teacher", t);
+
+            return "add_teacher";
         }
-        model.addAttribute("teachers",teacherService.findAll());
-        if(t == null)
-        {
-            return "redirect:/teachers?error="+String.format("Teacher with ID:%d does not exist",id);
+        catch(TeacherNotFoundExeption e){
+            System.out.println(e.getMessage());
+            return "redirect:/teachers?error=" + String.format("Teacher with ID:%d does not exist", id);
         }
-        model.addAttribute("teacher",t);
-        return "add_teacher";
     }
 
     @GetMapping("/delete/{id}")

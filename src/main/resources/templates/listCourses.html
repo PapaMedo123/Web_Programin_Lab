@@ -48,12 +48,18 @@
         <input type="submit" value="Submit">
 
     </form>
+    <div th:if="${pageble}">
+        <a th:href="@{'/courses/pageble' (number=${num - 1})}">Prev</a>
+        <a th:href="@{'/courses/pageble' (number=${num + 1})}">Next</a><br/>
+    </div>
+
 
     </br>
     <button onclick="location.href='/courses/add-form'">Add Course</button>
     </br>
     </br>
-
+    </br>
+    </br>
     <div th:if="${hasError}">
         <div th:text="${errormessage}"></div>
     </div>
